@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ajax请求</title>
+
+
+<link rel="stylesheet" th:href="@{/js/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
+
+<script type="text/javascript">
+	
+	$(function(){
+		$.post(
+			"[[@{/emps}]]",
+			null,
+			function(data){
+				var content = "";
+				for(var i = 0; i < data.length; i++){
+					content += '<tr>'
+					+'<td>' + data[i].eid + '</td>'
+					+'<td>' + data[i].ename + '</td>'
+					+'<td>' + data[i].hiredate +'</td>'
+					+'<td>' + data[i].did +'</td>'
+					+'<td><button type="button" class="btn btn-primary btn-xs" id="update" value="/emp/update/' + data[i].eid +'" >修改</button>'
+					+'<button type="button" class="btn btn-danger btn-xs" id="delete" value="/emp/delete/' + data[i].eid +'" >删除</button> </td>'
+					+'</tr>'
+				}
+				$(".table-striped").append(content);
+			}
+		);
+		
+		/* 事件绑定
+			按钮点击即触发事件 */
+		/*  $(document).on("click", "#update", function() {
+			 var val = $(this).val();
+				alert(val);
+		}); */
+		 $(document).on("click", "button", function() {
+			//获取路径
+			 var pathName=window.document.location.pathname;
+			//alert(pathName);
+			 //截取，得到项目名称
+			 var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
+			// alert(projectName);
+			 var val = projectName+$(this).val();
+			//alert(val);
+			location.href=val;
+		});
+		
+		//访问新增页面
+		$(document).on("click", "#add", function() {
+			 var val = $(this).val();
+			location.href=val;	
+		});
+	})
+	
+	
+	
+</script>
+
+</head>
+<body>
+
+		<div class="row" style="margin-top: 50px;">
+			<div class="col-lg-6 col-lg-offset-3">
+				<table class="table table-striped">
+					<tr>
+						<th>编号</th>
+						<th>姓名</th>
+						<th>日期</th>
+						<th>部门</th>
+						<th>操作</th>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>李四</td>
+						<td>2001-10-10</td>
+						<td>002部门</td>
+						<td><button type="button" class="btn btn-primary btn-xs" id="update" value="修改" >修改</button>
+							<button type="button" class="btn btn-danger btn-xs" id="delete" value="删除" >删除</button> </td>
+					</tr>
+				</table>
+			</div>
+			
+			<div class="col-lg-3 col-lg-offset-8">
+				<button type="button" class="btn btn-primary btn-sm" id="add" th:value="@{/emp/add}" >添加</button> </td>
+			</div>
+	
+		</div>
+	</body>
+</html>

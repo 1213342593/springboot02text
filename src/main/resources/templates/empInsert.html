@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="/emp/insert" method="post">
+		姓名:<input type="text" name="ename" >
+		入职日期:<input type="text" name="hiredate">
+		所属部门:<select name="did">
+				<option th:each="dep:${deps}" th:value="${dep.did}" th:text="${dep.dname}"></option>
+			</select>
+		<input type="submit" value="提交">
+	</form>
+</body>
+</html>
